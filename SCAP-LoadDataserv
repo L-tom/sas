@@ -1,0 +1,466 @@
+.class public Lcom/open/scap/app/service/LoadDataService;
+.super Landroid/app/Service;
+.source ""
+
+
+# static fields
+.field public static a:Z = false
+
+
+# instance fields
+.field private b:Lio/reactivex/disposables/CompositeDisposable;
+
+.field private c:Lcom/jess/arms/d/l;
+
+.field private d:J
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 2
+
+    invoke-direct {p0}, Landroid/app/Service;-><init>()V
+
+    const-wide/16 v0, 0x0
+
+    iput-wide v0, p0, Lcom/open/scap/app/service/LoadDataService;->d:J
+
+    return-void
+.end method
+
+.method static synthetic a(Lcom/open/scap/app/service/LoadDataService;J)J
+    .locals 0
+
+    iput-wide p1, p0, Lcom/open/scap/app/service/LoadDataService;->d:J
+
+    return-wide p1
+.end method
+
+.method static synthetic a(Lcom/open/scap/app/service/LoadDataService;Lcom/jess/arms/d/l;)Lcom/jess/arms/d/l;
+    .locals 0
+
+    iput-object p1, p0, Lcom/open/scap/app/service/LoadDataService;->c:Lcom/jess/arms/d/l;
+
+    return-object p1
+.end method
+
+.method private a()V
+    .locals 6
+
+    :try_start_0
+    const-string v0, "getNations"
+
+    invoke-static {v0}, Lcom/open/scap/http/a/a;->a(Ljava/lang/String;)Lcom/open/scap/storage/bean/common/NationBean;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-direct {p0, v0}, Lcom/open/scap/app/service/LoadDataService;->a(Lcom/open/scap/storage/bean/common/NationBean;)V
+
+    :cond_0
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+
+    move-result-wide v0
+
+    iget-wide v2, p0, Lcom/open/scap/app/service/LoadDataService;->d:J
+
+    sub-long/2addr v0, v2
+
+    sget-wide v2, Lcom/open/scap/http/a/a;->b:J
+
+    const/4 v4, 0x0
+
+    cmp-long v5, v0, v2
+
+    if-lez v5, :cond_1
+
+    new-instance v0, Lcom/alibaba/fastjson/JSONObject;
+
+    invoke-direct {v0}, Lcom/alibaba/fastjson/JSONObject;-><init>()V
+
+    const-string v1, "type"
+
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v1, v2}, Lcom/alibaba/fastjson/JSONObject;->a(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+
+    const-string v1, "platform"
+
+    const/16 v2, 0x3e9
+
+    invoke-static {v2}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v1, v2}, Lcom/alibaba/fastjson/JSONObject;->a(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+
+    invoke-static {p0}, Lcom/jess/arms/e/a;->c(Landroid/content/Context;)Lcom/jess/arms/b/a/a;
+
+    move-result-object v1
+
+    invoke-interface {v1}, Lcom/jess/arms/b/a/a;->i()Lcom/jess/arms/d/l;
+
+    move-result-object v1
+
+    iput-object v1, p0, Lcom/open/scap/app/service/LoadDataService;->c:Lcom/jess/arms/d/l;
+
+    iget-object v1, p0, Lcom/open/scap/app/service/LoadDataService;->c:Lcom/jess/arms/d/l;
+
+    const-class v2, Lcom/open/scap/http/a;
+
+    invoke-interface {v1, v2}, Lcom/jess/arms/d/l;->a(Ljava/lang/Class;)Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Lcom/open/scap/http/a;
+
+    invoke-static {p0, v0}, Lcom/open/scap/http/b/j;->c(Landroid/content/Context;Lcom/alibaba/fastjson/JSONObject;)Lokhttp3/RequestBody;
+
+    move-result-object v0
+
+    invoke-interface {v1, v0}, Lcom/open/scap/http/a;->e(Lokhttp3/RequestBody;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    new-instance v1, Lme/jessyan/rxerrorhandler/handler/RetryWithDelay;
+
+    const/4 v2, 0x5
+
+    const/16 v3, 0x14
+
+    invoke-direct {v1, v2, v3}, Lme/jessyan/rxerrorhandler/handler/RetryWithDelay;-><init>(II)V
+
+    invoke-virtual {v0, v1}, Lio/reactivex/Observable;->retryWhen(Lio/reactivex/functions/Function;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    invoke-static {}, Lio/reactivex/schedulers/Schedulers;->io()Lio/reactivex/Scheduler;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Lio/reactivex/Observable;->subscribeOn(Lio/reactivex/Scheduler;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    invoke-static {}, Lio/reactivex/android/schedulers/AndroidSchedulers;->mainThread()Lio/reactivex/Scheduler;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Lio/reactivex/Observable;->observeOn(Lio/reactivex/Scheduler;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    new-instance v1, Lcom/open/scap/app/service/e;
+
+    invoke-direct {v1, p0}, Lcom/open/scap/app/service/e;-><init>(Lcom/open/scap/app/service/LoadDataService;)V
+
+    invoke-virtual {v0, v1}, Lio/reactivex/Observable;->doFinally(Lio/reactivex/functions/Action;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    invoke-static {}, Lcom/open/scap/http/b/o;->a()Lio/reactivex/ObservableTransformer;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Lio/reactivex/Observable;->compose(Lio/reactivex/ObservableTransformer;)Lio/reactivex/Observable;
+
+    move-result-object v0
+
+    new-instance v1, Lcom/open/scap/app/service/c;
+
+    invoke-direct {v1, p0}, Lcom/open/scap/app/service/c;-><init>(Lcom/open/scap/app/service/LoadDataService;)V
+
+    new-instance v2, Lcom/open/scap/app/service/d;
+
+    invoke-direct {v2, p0}, Lcom/open/scap/app/service/d;-><init>(Lcom/open/scap/app/service/LoadDataService;)V
+
+    invoke-virtual {v0, v1, v2}, Lio/reactivex/Observable;->subscribe(Lio/reactivex/functions/Consumer;Lio/reactivex/functions/Consumer;)Lio/reactivex/disposables/Disposable;
+
+    move-result-object v0
+
+    iget-object v1, p0, Lcom/open/scap/app/service/LoadDataService;->b:Lio/reactivex/disposables/CompositeDisposable;
+
+    invoke-virtual {v1, v0}, Lio/reactivex/disposables/CompositeDisposable;->add(Lio/reactivex/disposables/Disposable;)Z
+
+    goto :goto_0
+
+    :cond_1
+    sput-boolean v4, Lcom/open/scap/app/service/LoadDataService;->a:Z
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    :catch_0
+    :goto_0
+    return-void
+.end method
+
+.method static synthetic a(Lcom/open/scap/app/service/LoadDataService;Lcom/open/scap/storage/bean/common/NationBean;)V
+    .locals 0
+
+    invoke-direct {p0, p1}, Lcom/open/scap/app/service/LoadDataService;->a(Lcom/open/scap/storage/bean/common/NationBean;)V
+
+    return-void
+.end method
+
+.method private a(Lcom/open/scap/storage/bean/common/NationBean;)V
+    .locals 6
+
+    invoke-static {p0}, Lcom/open/scap/http/b/i;->b(Landroid/content/Context;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->hashCode()I
+
+    move-result v1
+
+    const/4 v2, 0x4
+
+    const/4 v3, 0x3
+
+    const/4 v4, 0x2
+
+    const/4 v5, 0x1
+
+    sparse-switch v1, :sswitch_data_0
+
+    goto :goto_0
+
+    :sswitch_0
+    const-string v1, "zh_TW"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x2
+
+    goto :goto_1
+
+    :sswitch_1
+    const-string v1, "zh_CN"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x1
+
+    goto :goto_1
+
+    :sswitch_2
+    const-string v1, "ko_KR"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x4
+
+    goto :goto_1
+
+    :sswitch_3
+    const-string v1, "ja_JP"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x3
+
+    goto :goto_1
+
+    :sswitch_4
+    const-string v1, "en_US"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x0
+
+    goto :goto_1
+
+    :cond_0
+    :goto_0
+    const/4 v0, -0x1
+
+    :goto_1
+    if-eqz v0, :cond_5
+
+    if-eq v0, v5, :cond_4
+
+    if-eq v0, v4, :cond_3
+
+    if-eq v0, v3, :cond_2
+
+    if-eq v0, v2, :cond_1
+
+    goto :goto_4
+
+    :cond_1
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getKo_KR()Ljava/util/Map;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_6
+
+    goto :goto_2
+
+    :cond_2
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getZh_TW()Ljava/util/Map;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_6
+
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getJa_JP()Ljava/util/Map;
+
+    move-result-object p1
+
+    goto :goto_3
+
+    :cond_3
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getZh_TW()Ljava/util/Map;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_6
+
+    :goto_2
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getZh_TW()Ljava/util/Map;
+
+    move-result-object p1
+
+    goto :goto_3
+
+    :cond_4
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getZh_CN()Ljava/util/Map;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_6
+
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getZh_CN()Ljava/util/Map;
+
+    move-result-object p1
+
+    goto :goto_3
+
+    :cond_5
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getEn_US()Ljava/util/Map;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_6
+
+    invoke-virtual {p1}, Lcom/open/scap/storage/bean/common/NationBean;->getEn_US()Ljava/util/Map;
+
+    move-result-object p1
+
+    :goto_3
+    sput-object p1, Lcom/open/scap/app/a;->c:Ljava/util/Map;
+
+    :cond_6
+    :goto_4
+    return-void
+
+    nop
+
+    :sswitch_data_0
+    .sparse-switch
+        0x5c2b5f4 -> :sswitch_4
+        0x603414e -> :sswitch_3
+        0x617b622 -> :sswitch_2
+        0x6e7e71c -> :sswitch_1
+        0x6e7e934 -> :sswitch_0
+    .end sparse-switch
+.end method
+
+
+# virtual methods
+.method public onBind(Landroid/content/Intent;)Landroid/os/IBinder;
+    .locals 0
+    .annotation build Landroid/support/annotation/Nullable;
+    .end annotation
+
+    const/4 p1, 0x0
+
+    return-object p1
+.end method
+
+.method public onCreate()V
+    .locals 1
+
+    invoke-super {p0}, Landroid/app/Service;->onCreate()V
+
+    new-instance v0, Lio/reactivex/disposables/CompositeDisposable;
+
+    invoke-direct {v0}, Lio/reactivex/disposables/CompositeDisposable;-><init>()V
+
+    iput-object v0, p0, Lcom/open/scap/app/service/LoadDataService;->b:Lio/reactivex/disposables/CompositeDisposable;
+
+    return-void
+.end method
+
+.method public onDestroy()V
+    .locals 2
+
+    invoke-super {p0}, Landroid/app/Service;->onDestroy()V
+
+    iget-object v0, p0, Lcom/open/scap/app/service/LoadDataService;->b:Lio/reactivex/disposables/CompositeDisposable;
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0}, Lio/reactivex/disposables/CompositeDisposable;->clear()V
+
+    :cond_0
+    const/4 v0, 0x0
+
+    iput-object v0, p0, Lcom/open/scap/app/service/LoadDataService;->c:Lcom/jess/arms/d/l;
+
+    const-string v0, "=====LoadDataService==="
+
+    const-string v1, "===================================onDestroy======="
+
+    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+
+    return-void
+.end method
+
+.method public onStartCommand(Landroid/content/Intent;II)I
+    .locals 2
+
+    const-wide/16 v0, 0x0
+
+    iput-wide v0, p0, Lcom/open/scap/app/service/LoadDataService;->d:J
+
+    sget-boolean v0, Lcom/open/scap/app/service/LoadDataService;->a:Z
+
+    if-nez v0, :cond_0
+
+    const/4 v0, 0x1
+
+    sput-boolean v0, Lcom/open/scap/app/service/LoadDataService;->a:Z
+
+    invoke-direct {p0}, Lcom/open/scap/app/service/LoadDataService;->a()V
+
+    :cond_0
+    invoke-super {p0, p1, p2, p3}, Landroid/app/Service;->onStartCommand(Landroid/content/Intent;II)I
+
+    move-result p1
+
+    return p1
+.end method
